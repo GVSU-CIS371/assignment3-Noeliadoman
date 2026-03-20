@@ -1,38 +1,30 @@
 <template>
-  <!-- Only render if syrup is not "No Syrup" -->
-  <div v-if="syrup !== 'No Syrup'" class="syrup" :style="syrupStyle"></div>
+  <div class="syrup"></div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-const props = defineProps({
-  syrup: {
-    type: String,
-    required: true
-  }
-});
-
-// Change color based on syrup type
-const syrupStyle = computed(() => {
-  switch (props.syrup) {
-    case 'Vanilla':
-      return { backgroundColor: '#F3E5AB', height: '20%', zIndex: 400 };
-    case 'Caramel':
-      return { backgroundColor: '#C68E17', height: '20%', zIndex: 400 };
-    case 'Hazelnut':
-      return { backgroundColor: '#D2B48C', height: '20%', zIndex: 400 };
-    default:
-      return {};
-  }
-});
+  import { computed } from "vue";
+  import { currentSyrup } from "../stores/beverage";
+  const bgColor = computed(() => currentSyrup.value.color);
 </script>
 
 <style lang="scss" scoped>
+@mixin syrup-layer($color) {
+  background: repeating-linear-gradient(
+    45deg,
+    white,
+    white 10px,
+    $color 10px,
+    $color 20px
+  );
+}
 .syrup {
   transform: translateY(400%);
+  @include syrup-layer(v-bind(bgColor));
   position: relative;
   width: 100%;
+  height: 20%;
   animation: pour-tea 2s 1s forwards;
+  z-index: 2;
 }
 </style>
