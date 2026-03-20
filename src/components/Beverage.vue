@@ -31,6 +31,3 @@ type Props = {
 };
 defineProps<Props>();
 </script>
-// Destructure for easier usage
-const { isIced, base, creamer, syrup } = props;
-</script>
