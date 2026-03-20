@@ -1,20 +1,26 @@
 <template>
   <Mug>
+    <!-- Show iced or hot layer -->
     <Cold v-if="isIced" />
     <Hot v-else />
+
+    <!-- Contents with layered slots -->
     <Contents>
       <template v-slot:top>
-        <Creamer />
+        <!-- Only show creamer if selected -->
+        <Creamer v-if="creamer !== 'No Creamer'" :creamer="creamer" />
       </template>
       <template v-slot:mid>
-        <Syrup />
+        <!-- Only show syrup if selected -->
+        <Syrup v-if="syrup !== 'No Syrup'" :syrup="syrup" />
       </template>
       <template v-slot:bottom>
-        <Base />
+        <Base :base="base" />
       </template>
     </Contents>
   </Mug>
 </template>
+
 <script setup lang="ts">
 import Contents from "./Contents.vue";
 import Mug from "./Mug.vue";
@@ -26,6 +32,13 @@ import Cold from "./Cold.vue";
 
 type Props = {
   isIced: boolean;
+  base: string;
+  creamer: string;
+  syrup: string;
 };
-defineProps<Props>();
+
+const props = defineProps<Props>();
+
+// Destructure for easier usage
+const { isIced, base, creamer, syrup } = props;
 </script>
